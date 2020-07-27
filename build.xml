@@ -6,7 +6,7 @@
      ====================================================================== -->
 <project name="build" default="compile">
 
-	<description>Doom Struct</description>
+	<description>Doom Tools</description>
 
 	<property file="build.properties" />
 	<property file="versions.properties" />
@@ -57,8 +57,9 @@
 	<property name="wtexscan.version" value="${build.version}" />
 	<property name="wtexport.version" value="${build.version}" />
 	<property name="wadscript.version" value="${build.version}" />
+	<property name="wadunmerge.version" value="${build.version}" />
 
-	
+
 	<!-- Filenames -->
 	<property name="build.versions.dir" value="${build.dir}/versions" />
 	<property name="zip.dist.filename" value="${project.archive}-cmd-${build.version.number}.zip" />
@@ -86,6 +87,7 @@
 		<echo file="${build.versions.dir}/wtexscan.version" message="${wtexscan.version}" />
 		<echo file="${build.versions.dir}/wtexport.version" message="${wtexport.version}" />
 		<echo file="${build.versions.dir}/wadscript.version" message="${wadscript.version}" />
+		<echo file="${build.versions.dir}/wadunmerge.version" message="${wadunmerge.version}" />
 	</target>
 
 	<target name="javadoc" depends="init.docs" description="Builds the documentation.">
@@ -137,6 +139,9 @@
 		<!-- WadMerge -->
 		<shell-cmd  name="wadmerge"  todir="${build.dir}/shell/cmd"   options="-Xms64M -Xmx784M" jarname="jar\${jar.filename}" mainclass="net.mtrop.doom.tools.WadMergeMain" />
 		<shell-bash name="wadmerge"  todir="${build.dir}/shell/bash"  options="-Xms64M -Xmx784M" jarname="jar/${jar.filename}" mainclass="net.mtrop.doom.tools.WadMergeMain" />
+		<!-- WadUnMerge -->
+		<shell-cmd  name="wadunmerge" todir="${build.dir}/shell/cmd"  options="-Xms64M -Xmx784M" jarname="jar\${jar.filename}" mainclass="net.mtrop.doom.tools.WadUnMergeMain" />
+		<shell-bash name="wadunmerge" todir="${build.dir}/shell/bash" options="-Xms64M -Xmx784M" jarname="jar/${jar.filename}" mainclass="net.mtrop.doom.tools.WadUnMergeMain" />
 		<!-- WSWANTBL -->
 		<shell-cmd  name="wswantbl" todir="${build.dir}/shell/cmd"    options="-Xms64M -Xmx784M" jarname="jar\${jar.filename}" mainclass="net.mtrop.doom.tools.WSwAnTablesMain" />
 		<shell-bash name="wswantbl" todir="${build.dir}/shell/bash"   options="-Xms64M -Xmx784M" jarname="jar/${jar.filename}" mainclass="net.mtrop.doom.tools.WSwAnTablesMain" />
@@ -187,7 +192,7 @@
 	<target name="deploy.bash" if="deploy.dir" depends="dist.bash" description="Deploys the Bash distribution to a directory, CLEANING THE DIRECTORY FIRST. USE CAUTION.">
 		<delete dir="${deploy.dir}" failonerror="false" />
 		<mkdir dir="${deploy.dir}" />
-		<!-- Untar does not preserve file permissions for some dumb reason, so call TAR itself. -->
+		<!-- Ant Untar does not preserve file permissions for some dumb reason, so call TAR itself. -->
 		<exec executable="tar" failonerror="true">
 			<arg line="-zxf" />
 			<arg line="${dist.dir}/${tar.dist.filename}" />

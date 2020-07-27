@@ -494,11 +494,6 @@ public final class WTexScanMain
 			if (atLeastOneError)
 				return ERROR_BAD_FILE;
 			
-			if (options.help || options.version)
-			{
-				return ERROR_NONE;
-			}
-			
 			if (!options.wadFiles.isEmpty())
 			{
 				if (textureList.isEmpty())
