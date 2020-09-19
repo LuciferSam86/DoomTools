@@ -1,0 +1,32 @@
+WADUNMERGE
+==========
+
+Explodes a WAD into a directory tree that can be merged back together.
+Un-merges WAD contents into data, and writes WADMerge scripts for it.
+If data is readable as-is (PNG/GIF/PCX/BMP/TGA/DDS/KVX/VOX/WAV/OGG/MP3/SPC/IT/S3M/XM/MOD/MUS/MID/TXT/O/LMP),
+the corresponding extension is used for it.
+
+Usage: wadunmerge [file] [dir]
+    [file]: The WAD file.
+    [dir]: The target directory.
+
+    build/                Default build directory.
+    maps/                 Matched map index - export map entries as WADs.
+    assets/               Directory for non-map data.
+        sprites/          Between S_START/END (ignoring S?_*) or SS_START/END.
+        colormaps/        Between C_START/END
+        hires/            Between HI_START/END
+        voices/           Between V_START/END
+        voxels/           Between VX_START/END
+        acs/              Between A_START/END
+        music/            Global, starts with D_* or MUS_* or data has FourCC for MID or MUS.
+        sounds/           Global, starts with DS* or DP* and data header matches.
+        flats/            Between F_START/END (ignoring F?_*), or FF_START/END.
+        patches/          Between P_START/END (ignoring P?_*) or PP_START/END.
+        textures/         Between TX_START/END
+        texture1.txt      DEUTEX TEXTURE definition for TEXTURE1 (if exists).
+        texture2.txt      DEUTEX TEXTURE definition for TEXTURE2 (if exists).
+        *                 Other global entries (PLAYPAL, COLORMAP, TRANMAP, GENMIDI...).
+    wadmerge-maps.txt     Generated WADMerge script file for compiling just maps.
+    wadmerge-assets.txt   Generated WADMerge script file for compiling just assets.
+    wadmerge.txt          Generated WADMerge script file.

@@ -2,6 +2,8 @@ package net.mtrop.doom.tools;
 
 import java.io.IOException;
 import java.io.PrintStream;
+import java.util.ArrayList;
+import java.util.List;
 
 import net.mtrop.doom.tools.common.Common;
 import net.mtrop.doom.tools.exception.OptionParseException;
@@ -22,7 +24,29 @@ public final class WadUnMergeMain
 	private static final String SWITCH_HELP = "--help";
 	private static final String SWITCH_HELP2 = "-h";
 	private static final String SWITCH_VERSION = "--version";
-
+	
+	private static List<MagicNumberType> MAGIC_NUMBERS = new ArrayList<>() 
+	{{
+		MagicNumberType.create(".png", new byte[]{(byte)0x89, 'P', 'N', 'G', 0x0D, 0x0A, 0x1A, 0x0A});
+		MagicNumberType.create(".gif", new byte[]{'G', 'I', 'F', '8', '7', 'a'});
+		MagicNumberType.create(".bmp", new byte[]{'B', 'M'});
+		// TODO: finish.
+	}};
+	
+	
+	private static class MagicNumberType
+	{
+		private byte[] header;
+		private String extension;
+		private static MagicNumberType create(String extension, byte[] header)
+		{
+			MagicNumberType out = new MagicNumberType();
+			out.header = header;
+			out.extension = extension;
+			return out;
+		}
+	}
+	
 	/**
 	 * Program options.
 	 */
@@ -65,6 +89,12 @@ public final class WadUnMergeMain
 		private Context(Options options)
 		{
 			this.options = options;
+		}
+		
+		private String fileExtension(byte[] bytes)
+		{
+			// TODO: Finish
+			return ".lmp";
 		}
 		
 		public int call()
