@@ -7,6 +7,7 @@ package net.mtrop.doom.tools.decohack.data;
 
 import java.io.IOException;
 import java.io.Writer;
+import java.util.List;
 
 import net.mtrop.doom.tools.decohack.data.enums.DEHFeatureLevel;
 import net.mtrop.doom.util.RangeUtils;
@@ -331,39 +332,81 @@ public class DEHMiscellany implements DEHObject<DEHMiscellany>
 	@Override
 	public void writeObject(Writer writer, DEHMiscellany misc, DEHFeatureLevel level) throws IOException
 	{
-		if (monsterInfightingEnabled != misc.monsterInfightingEnabled)
+		if (isMonsterInfightingEnabled() != misc.isMonsterInfightingEnabled())
 			writer.append("Monsters Infight = ").append(String.valueOf(221)).append("\r\n");
-		if (initialBullets != misc.initialBullets)
-			writer.append("Initial Bullets = ").append(String.valueOf(initialBullets)).append("\r\n");
-		if (initialHealth != misc.initialHealth)
-			writer.append("Initial Health = ").append(String.valueOf(initialHealth)).append("\r\n");
-		if (greenArmorClass != misc.greenArmorClass)
-			writer.append("Green Armor Class = ").append(String.valueOf(greenArmorClass)).append("\r\n");
-		if (blueArmorClass != misc.blueArmorClass)
-			writer.append("Blue Armor Class = ").append(String.valueOf(blueArmorClass)).append("\r\n");
-		if (soulsphereHealth != misc.soulsphereHealth)
-			writer.append("Soulsphere Health = ").append(String.valueOf(soulsphereHealth)).append("\r\n");
-		if (maxSoulsphereHealth != misc.maxSoulsphereHealth)
-			writer.append("Max Soulsphere = ").append(String.valueOf(maxSoulsphereHealth)).append("\r\n");
-		if (megasphereHealth != misc.megasphereHealth)
-			writer.append("Megasphere Health = ").append(String.valueOf(megasphereHealth)).append("\r\n");
-		if (godModeHealth != misc.godModeHealth)
-			writer.append("God Mode Health = ").append(String.valueOf(godModeHealth)).append("\r\n");
-		if (idfaArmor != misc.idfaArmor)
-			writer.append("IDFA Armor = ").append(String.valueOf(idfaArmor)).append("\r\n");
-		if (idfaArmorClass != misc.idfaArmorClass)
-			writer.append("IDFA Armor Class = ").append(String.valueOf(idfaArmorClass)).append("\r\n");
-		if (idkfaArmor != misc.idkfaArmor)
-			writer.append("IDKFA Armor = ").append(String.valueOf(idkfaArmor)).append("\r\n");
-		if (idkfaArmorClass != misc.idkfaArmorClass)
-			writer.append("IDKFA Armor Class = ").append(String.valueOf(idkfaArmorClass)).append("\r\n");
-		if (bfgCellsPerShot != misc.bfgCellsPerShot)
-			writer.append("BFG Cells/Shot = ").append(String.valueOf(bfgCellsPerShot)).append("\r\n");
-		if (maxHealth != misc.maxHealth)
-			writer.append("Max Health = ").append(String.valueOf(maxHealth)).append("\r\n");
-		if (maxArmor != misc.maxArmor)
-			writer.append("Max Armor = ").append(String.valueOf(maxArmor)).append("\r\n");
+		if (getInitialBullets() != misc.getInitialBullets())
+			writer.append("Initial Bullets = ").append(String.valueOf(getInitialBullets())).append("\r\n");
+		if (getInitialHealth() != misc.getInitialHealth())
+			writer.append("Initial Health = ").append(String.valueOf(getInitialHealth())).append("\r\n");
+		if (getGreenArmorClass() != misc.getGreenArmorClass())
+			writer.append("Green Armor Class = ").append(String.valueOf(getGreenArmorClass())).append("\r\n");
+		if (getBlueArmorClass() != misc.getBlueArmorClass())
+			writer.append("Blue Armor Class = ").append(String.valueOf(getBlueArmorClass())).append("\r\n");
+		if (getSoulsphereHealth() != misc.getSoulsphereHealth())
+			writer.append("Soulsphere Health = ").append(String.valueOf(getSoulsphereHealth())).append("\r\n");
+		if (getMaxSoulsphereHealth() != misc.getMaxSoulsphereHealth())
+			writer.append("Max Soulsphere = ").append(String.valueOf(getMaxSoulsphereHealth())).append("\r\n");
+		if (getMegasphereHealth() != misc.getMegasphereHealth())
+			writer.append("Megasphere Health = ").append(String.valueOf(getMegasphereHealth())).append("\r\n");
+		if (getGodModeHealth() != misc.getGodModeHealth())
+			writer.append("God Mode Health = ").append(String.valueOf(getGodModeHealth())).append("\r\n");
+		if (getIDFAArmor() != misc.getIDFAArmor())
+			writer.append("IDFA Armor = ").append(String.valueOf(getIDFAArmor())).append("\r\n");
+		if (getIDFAArmorClass() != misc.getIDFAArmorClass())
+			writer.append("IDFA Armor Class = ").append(String.valueOf(getIDFAArmorClass())).append("\r\n");
+		if (getIDKFAArmor() != misc.getIDKFAArmor())
+			writer.append("IDKFA Armor = ").append(String.valueOf(getIDKFAArmor())).append("\r\n");
+		if (getIDKFAArmorClass() != misc.getIDKFAArmorClass())
+			writer.append("IDKFA Armor Class = ").append(String.valueOf(getIDKFAArmorClass())).append("\r\n");
+		if (getBFGCellsPerShot() != misc.getBFGCellsPerShot())
+			writer.append("BFG Cells/Shot = ").append(String.valueOf(getBFGCellsPerShot())).append("\r\n");
+		if (getMaxHealth() != misc.getMaxHealth())
+			writer.append("Max Health = ").append(String.valueOf(getMaxHealth())).append("\r\n");
+		if (getMaxArmor() != misc.getMaxArmor())
+			writer.append("Max Armor = ").append(String.valueOf(getMaxArmor())).append("\r\n");
 		writer.flush();
+	}
+	
+	@Override
+	public void dumpObjectFieldNames(List<String> fieldNameList, DEHFeatureLevel level) 
+	{
+		fieldNameList.add("Monsters Infight");
+		fieldNameList.add("Bullets Init");
+		fieldNameList.add("Health Init");
+		fieldNameList.add("Health Max");
+		fieldNameList.add("Armor Max");
+		fieldNameList.add("Green Armor Class");
+		fieldNameList.add("Blue Armor Class");
+		fieldNameList.add("Soulsphere Health");
+		fieldNameList.add("Soulsphere Health Max");
+		fieldNameList.add("Megasphere Health");
+		fieldNameList.add("IDDQD Health");
+		fieldNameList.add("IDFA Armor");
+		fieldNameList.add("IDFA Armor Class");
+		fieldNameList.add("IDKFA Armor");
+		fieldNameList.add("IDKFA Armor Class");
+		fieldNameList.add("BFG Cells/Shot");
+	}
+	
+	@Override
+	public void dumpObjectFieldValues(List<Object> fieldValueList, DEHFeatureLevel level) 
+	{
+		fieldValueList.add(isMonsterInfightingEnabled());
+		fieldValueList.add(getInitialBullets());
+		fieldValueList.add(getInitialHealth());
+		fieldValueList.add(getMaxHealth());
+		fieldValueList.add(getMaxArmor());
+		fieldValueList.add(getGreenArmorClass());
+		fieldValueList.add(getBlueArmorClass());
+		fieldValueList.add(getSoulsphereHealth());
+		fieldValueList.add(getMaxSoulsphereHealth());
+		fieldValueList.add(getMegasphereHealth());
+		fieldValueList.add(getGodModeHealth());
+		fieldValueList.add(getIDFAArmor());
+		fieldValueList.add(getIDFAArmorClass());
+		fieldValueList.add(getIDKFAArmor());
+		fieldValueList.add(getIDKFAArmorClass());
+		fieldValueList.add(getBFGCellsPerShot());
 	}
 	
 }

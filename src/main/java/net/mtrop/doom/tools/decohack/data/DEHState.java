@@ -245,29 +245,77 @@ public class DEHState implements DEHObject<DEHState>
 	}	
 		
 	@Override
-	public void writeObject(Writer writer, DEHState frame, DEHFeatureLevel level) throws IOException
+	public void writeObject(Writer writer, DEHState state, DEHFeatureLevel level) throws IOException
 	{
-		if (spriteIndex != frame.spriteIndex)
+		if (getSpriteIndex() != state.getSpriteIndex())
 			writer.append("Sprite number = ").append(String.valueOf(spriteIndex)).append("\r\n");
-		if (frameIndex != frame.frameIndex || bright != frame.bright)
+		if (getFrameIndex() != state.getFrameIndex() || isBright() != state.isBright())
 			writer.append("Sprite subnumber = ").append(String.valueOf(frameIndex | (bright ? 0x08000 : 0x00000))).append("\r\n");
-		if (nextStateIndex != frame.nextStateIndex)
+		if (getNextStateIndex() != state.getNextStateIndex())
 			writer.append("Next frame = ").append(String.valueOf(nextStateIndex)).append("\r\n");
-		if (duration != frame.duration)
+		if (getDuration() != state.getDuration())
 			writer.append("Duration = ").append(String.valueOf(duration)).append("\r\n");
-		if (misc1 != frame.misc1)
+		if (getMisc1() != state.getMisc1())
 			writer.append("Unknown 1 = ").append(String.valueOf(misc1)).append("\r\n");
-		if (misc2 != frame.misc2)
+		if (getMisc2() != state.getMisc2())
 			writer.append("Unknown 2 = ").append(String.valueOf(misc2)).append("\r\n");
 		if (level.supports(DEHFeatureLevel.MBF21))
 		{
+			int[] args = getArgs();
 			for (int i = 0; i < args.length; i++)
-				if (i >= frame.args.length || args[i] != frame.args[i])
+				if (i >= state.getArgs().length || args[i] != state.getArgs()[i])
 					writer.append("Args").append(String.valueOf(i+1)).append(" = ").append(String.valueOf(args[i])).append("\r\n");
-			if (mbf21Flags != frame.mbf21Flags)
+			if (getMBF21Flags() != state.getMBF21Flags())
 				writer.append("MBF21 Bits = ").append(String.valueOf(mbf21Flags)).append("\r\n");
 		}
 		writer.flush();
 	}
 
+	@Override
+	public void dumpObjectFieldNames(List<String> fieldNameList, DEHFeatureLevel level) 
+	{
+		fieldNameList.add("Sprite Index");
+		fieldNameList.add("Frame Index");
+		fieldNameList.add("Next State");
+		fieldNameList.add("Duration");
+		fieldNameList.add("Bright");
+		if (level.supports(DEHFeatureLevel.MBF21))
+		{
+			fieldNameList.add("MBF21 Flags");
+		}
+		fieldNameList.add("Misc1");
+		fieldNameList.add("Misc2");
+		if (level.supports(DEHFeatureLevel.MBF21))
+		{
+			fieldNameList.add("Arg0");
+			fieldNameList.add("Arg1");
+			fieldNameList.add("Arg2");
+			fieldNameList.add("Arg3");
+			fieldNameList.add("Arg4");
+			fieldNameList.add("Arg5");
+			fieldNameList.add("Arg6");
+		}
+	}
+	
+	@Override
+	public void dumpObjectFieldValues(List<Object> fieldValueList, DEHFeatureLevel level) 
+	{
+		fieldValueList.add(getSpriteIndex());
+		fieldValueList.add(getFrameIndex());
+		fieldValueList.add(getNextStateIndex());
+		fieldValueList.add(getDuration());
+		fieldValueList.add(isBright());
+		if (level.supports(DEHFeatureLevel.MBF21))
+		{
+			fieldValueList.add(getMBF21Flags());
+		}
+		fieldValueList.add(getMisc1());
+		fieldValueList.add(getMisc2());
+		if (level.supports(DEHFeatureLevel.MBF21))
+		{
+			for (int i = 0; i < getArgs().length; i++)
+				fieldValueList.add(getArgs()[i]);
+		}
+	}
+	
 }

@@ -7,6 +7,7 @@ package net.mtrop.doom.tools.decohack.data;
 
 import java.io.IOException;
 import java.io.Writer;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
@@ -364,8 +365,8 @@ public class DEHWeapon implements DEHObject<DEHWeapon>, DEHWeaponTarget<DEHWeapo
 	@Override
 	public void writeObject(Writer writer, DEHWeapon weapon, DEHFeatureLevel level) throws IOException 
 	{
-		if (ammoType != weapon.ammoType)
-			writer.append("Ammo type = ").append(String.valueOf(ammoType.ordinal())).append("\r\n");
+		if (getAmmoType() != weapon.getAmmoType())
+			writer.append("Ammo type = ").append(String.valueOf(getAmmoType().ordinal())).append("\r\n");
 		
 		// These look backwards. They are not.
 		if (getRaiseFrameIndex() != weapon.getRaiseFrameIndex())
@@ -380,16 +381,28 @@ public class DEHWeapon implements DEHObject<DEHWeapon>, DEHWeaponTarget<DEHWeapo
 		if (getFlashFrameIndex() != weapon.getFlashFrameIndex())
 			writer.append("Firing frame = ").append(String.valueOf(getFlashFrameIndex())).append("\r\n");
 
-		if (ammoPerShot != weapon.ammoPerShot)
-			writer.append("Ammo per shot = ").append(String.valueOf(ammoPerShot)).append("\r\n");
+		if (getAmmoPerShot() != weapon.getAmmoPerShot())
+			writer.append("Ammo per shot = ").append(String.valueOf(getAmmoPerShot())).append("\r\n");
 		
 		if (level.supports(DEHFeatureLevel.MBF21))
 		{
-			if (mbf21Flags != weapon.mbf21Flags)
-				writer.append("MBF21 Bits = ").append(String.valueOf(mbf21Flags)).append("\r\n");
+			if (getMBF21Flags() != weapon.getMBF21Flags())
+				writer.append("MBF21 Bits = ").append(String.valueOf(getMBF21Flags())).append("\r\n");
 		}
 
 		writer.flush();
+	}
+
+	@Override
+	public void dumpObjectFieldNames(List<String> fieldNameList, DEHFeatureLevel level)
+	{
+		// TODO Finish this.
+	}
+
+	@Override
+	public void dumpObjectFieldValues(List<Object> fieldValueList, DEHFeatureLevel level) 
+	{
+		// TODO Finish this.
 	}
 
 }

@@ -7,6 +7,7 @@ package net.mtrop.doom.tools.decohack.data;
 
 import java.io.IOException;
 import java.io.Writer;
+import java.util.List;
 
 import net.mtrop.doom.tools.decohack.data.enums.DEHFeatureLevel;
 import net.mtrop.doom.util.RangeUtils;
@@ -115,11 +116,25 @@ public class DEHSound implements DEHObject<DEHSound>
 	@Override
 	public void writeObject(Writer writer, DEHSound sound, DEHFeatureLevel level) throws IOException
 	{
-		if (priority != sound.priority)
-			writer.append("Value = ").append(String.valueOf(priority)).append("\r\n");
-		if (singular != sound.singular)
-			writer.append("Zero/One = ").append(String.valueOf(singular ? 1 : 0)).append("\r\n");
+		if (getPriority() != sound.getPriority())
+			writer.append("Value = ").append(String.valueOf(getPriority())).append("\r\n");
+		if (isSingular() != sound.isSingular())
+			writer.append("Zero/One = ").append(String.valueOf(isSingular() ? 1 : 0)).append("\r\n");
 		writer.flush();
+	}
+	
+	@Override
+	public void dumpObjectFieldNames(List<String> fieldNameList, DEHFeatureLevel level) 
+	{
+		fieldNameList.add("Priority");
+		fieldNameList.add("Singular");
+	}
+	
+	@Override
+	public void dumpObjectFieldValues(List<Object> fieldValueList, DEHFeatureLevel level) 
+	{
+		fieldValueList.add(getPriority());
+		fieldValueList.add(isSingular());
 	}
 	
 }

@@ -7,6 +7,7 @@ package net.mtrop.doom.tools.decohack.data;
 
 import java.io.IOException;
 import java.io.Writer;
+import java.util.List;
 
 import net.mtrop.doom.tools.decohack.data.enums.DEHFeatureLevel;
 import net.mtrop.doom.util.RangeUtils;
@@ -120,11 +121,27 @@ public class DEHAmmo implements DEHObject<DEHAmmo>
 	@Override
 	public void writeObject(Writer writer, DEHAmmo ammo, DEHFeatureLevel level) throws IOException
 	{
-		if (max != ammo.max)
+		if (getMax() != ammo.getMax())
 			writer.append("Max ammo = ").append(String.valueOf(max)).append("\r\n");
-		if (pickup != ammo.pickup)
+		if (getPickup() != ammo.getPickup())
 			writer.append("Per ammo = ").append(String.valueOf(pickup)).append("\r\n");
 		writer.flush();
 	}
+	
+	@Override
+	public void dumpObjectFieldNames(List<String> fieldNameList, DEHFeatureLevel level)
+	{
+		fieldNameList.add("Name");
+		fieldNameList.add("Max Ammo");
+		fieldNameList.add("Per Ammo");
+	}
 
+	@Override
+	public void dumpObjectFieldValues(List<Object> fieldValueList, DEHFeatureLevel level) 
+	{
+		fieldValueList.add(getName());
+		fieldValueList.add(getMax());
+		fieldValueList.add(getPickup());
+	}
+	
 }

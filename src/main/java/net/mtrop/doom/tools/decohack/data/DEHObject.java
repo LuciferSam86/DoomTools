@@ -7,6 +7,7 @@ package net.mtrop.doom.tools.decohack.data;
 
 import java.io.IOException;
 import java.io.Writer;
+import java.util.List;
 
 import net.mtrop.doom.tools.decohack.data.enums.DEHFeatureLevel;
 
@@ -33,5 +34,21 @@ public interface DEHObject<SELF>
 	 * @throws IOException if a write error occurs.
 	 */
 	void writeObject(Writer writer, SELF original, DEHFeatureLevel level) throws IOException;
+
+	/**
+	 * Dumps this object's field names to a contiguous name list.
+	 * @param fieldNameList the field name list.
+	 * @param level the highest feature level to export for.
+	 */
+	void dumpObjectFieldNames(List<String> fieldNameList, DEHFeatureLevel level);
+	
+	/**
+	 * Dumps this object's field values to a contiguous value list. 
+	 * Should correspond to names directly.
+	 * @param fieldValueList the destination list.
+	 * @param level the highest feature level to export for.
+	 * @see #dumpObjectFieldNames(List)
+	 */
+	void dumpObjectFieldValues(List<Object> fieldValueList, DEHFeatureLevel level);
 	
 }

@@ -7,6 +7,7 @@ package net.mtrop.doom.tools.decohack.data;
 
 import java.io.IOException;
 import java.io.Writer;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
@@ -659,35 +660,33 @@ public class DEHThing implements DEHObject<DEHThing>, DEHThingTarget<DEHThing>
 	@Override
 	public void writeObject(Writer writer, DEHThing thing, DEHFeatureLevel level) throws IOException
 	{
-		boolean isProjectile = (flags & DEHThingFlag.MISSILE.getValue()) != 0;
-		boolean thingIsProjectile = (thing.flags & DEHThingFlag.MISSILE.getValue()) != 0;
+		boolean isProjectile = (getFlags() & DEHThingFlag.MISSILE.getValue()) != 0;
+		boolean thingIsProjectile = (thing.getFlags() & DEHThingFlag.MISSILE.getValue()) != 0;
 
-		int speedVal = isProjectile ? speed << 16 : speed;
-		int thingSpeedVal = thingIsProjectile ? thing.speed << 16 : thing.speed;
-		int fastSpeedVal = isProjectile && fastSpeed != DEFAULT_FASTSPEED ? fastSpeed << 16 : fastSpeed;
-		int thingFastSpeedVal = thingIsProjectile && thing.fastSpeed != DEFAULT_FASTSPEED ? thing.fastSpeed << 16 : thing.fastSpeed;
+		int speedVal = isProjectile ? getSpeed() << 16 : getSpeed();
+		int thingSpeedVal = thingIsProjectile ? thing.getSpeed() << 16 : thing.getSpeed();
 
-		if (editorNumber != thing.editorNumber)
-			writer.append("ID # = ").append(String.valueOf(editorNumber)).append("\r\n");
+		if (getEditorNumber() != thing.getEditorNumber())
+			writer.append("ID # = ").append(String.valueOf(getEditorNumber())).append("\r\n");
 		
-		if (health != thing.health)
-			writer.append("Hit points = ").append(String.valueOf(health)).append("\r\n");
+		if (getHealth() != thing.getHealth())
+			writer.append("Hit points = ").append(String.valueOf(getHealth())).append("\r\n");
 		if (speedVal != thingSpeedVal)
 			writer.append("Speed = ").append(String.valueOf(speedVal)).append("\r\n");
-		if (radius != thing.radius)
-			writer.append("Width = ").append(String.valueOf(radius << 16)).append("\r\n");
-		if (height != thing.height)
-			writer.append("Height = ").append(String.valueOf(height << 16)).append("\r\n");
-		if (damage != thing.damage)
-			writer.append("Missile damage = ").append(String.valueOf(damage)).append("\r\n");
-		if (reactionTime != thing.reactionTime)
-			writer.append("Reaction time = ").append(String.valueOf(reactionTime)).append("\r\n");
-		if (painChance != thing.painChance)
-			writer.append("Pain chance = ").append(String.valueOf(painChance)).append("\r\n");
-		if (flags != thing.flags)
-			writer.append("Bits = ").append(String.valueOf(flags)).append("\r\n");
-		if (mass != thing.mass)
-			writer.append("Mass = ").append(String.valueOf(mass)).append("\r\n");
+		if (getRadius() != thing.getRadius())
+			writer.append("Width = ").append(String.valueOf(getRadius() << 16)).append("\r\n");
+		if (getHeight() != thing.getHeight())
+			writer.append("Height = ").append(String.valueOf(getHeight() << 16)).append("\r\n");
+		if (getDamage() != thing.getDamage())
+			writer.append("Missile damage = ").append(String.valueOf(getDamage())).append("\r\n");
+		if (getReactionTime() != thing.getReactionTime())
+			writer.append("Reaction time = ").append(String.valueOf(getReactionTime())).append("\r\n");
+		if (getPainChance() != thing.getPainChance())
+			writer.append("Pain chance = ").append(String.valueOf(getPainChance())).append("\r\n");
+		if (getFlags() != thing.getFlags())
+			writer.append("Bits = ").append(String.valueOf(getFlags())).append("\r\n");
+		if (getMass() != thing.getMass())
+			writer.append("Mass = ").append(String.valueOf(getMass())).append("\r\n");
 
 		if (getSpawnFrameIndex() != thing.getSpawnFrameIndex())
 			writer.append("Initial frame = ").append(String.valueOf(getSpawnFrameIndex())).append("\r\n");
@@ -706,44 +705,59 @@ public class DEHThing implements DEHObject<DEHThing>, DEHThingTarget<DEHThing>
 		if (getRaiseFrameIndex() != thing.getRaiseFrameIndex())
 			writer.append("Respawn frame = ").append(String.valueOf(getRaiseFrameIndex())).append("\r\n");
 
-		if (seeSoundPosition != thing.seeSoundPosition)
-			writer.append("Alert sound = ").append(String.valueOf(seeSoundPosition)).append("\r\n");
-		if (activeSoundPosition != thing.activeSoundPosition)
-			writer.append("Action sound = ").append(String.valueOf(activeSoundPosition)).append("\r\n");
-		if (attackSoundPosition != thing.attackSoundPosition)
-			writer.append("Attack sound = ").append(String.valueOf(attackSoundPosition)).append("\r\n");
-		if (painSoundPosition != thing.painSoundPosition)
-			writer.append("Pain sound = ").append(String.valueOf(painSoundPosition)).append("\r\n");
-		if (deathSoundPosition != thing.deathSoundPosition)
-			writer.append("Death sound = ").append(String.valueOf(deathSoundPosition)).append("\r\n");
+		if (getSeeSoundPosition() != thing.getSeeSoundPosition())
+			writer.append("Alert sound = ").append(String.valueOf(getSeeSoundPosition())).append("\r\n");
+		if (getActiveSoundPosition() != thing.getActiveSoundPosition())
+			writer.append("Action sound = ").append(String.valueOf(getActiveSoundPosition())).append("\r\n");
+		if (getAttackSoundPosition() != thing.getAttackSoundPosition())
+			writer.append("Attack sound = ").append(String.valueOf(getAttackSoundPosition())).append("\r\n");
+		if (getPainSoundPosition() != thing.getPainSoundPosition())
+			writer.append("Pain sound = ").append(String.valueOf(getPainSoundPosition())).append("\r\n");
+		if (getDeathSoundPosition() != thing.getDeathSoundPosition())
+			writer.append("Death sound = ").append(String.valueOf(getDeathSoundPosition())).append("\r\n");
 
 		// Extended features
 		if (level.supports(DEHFeatureLevel.EXTENDED))
 		{
-			if (droppedItem != thing.droppedItem)
-				writer.append("Dropped item = ").append(String.valueOf(droppedItem)).append("\r\n");
+			if (getDroppedItem() != thing.getDroppedItem())
+				writer.append("Dropped item = ").append(String.valueOf(getDroppedItem())).append("\r\n");
 		}
 
 		// MBF21 features
 		if (level.supports(DEHFeatureLevel.MBF21))
 		{
-			if (mbf21Flags != thing.mbf21Flags)
-				writer.append("MBF21 Bits = ").append(String.valueOf(mbf21Flags)).append("\r\n");
-			if (infightingGroup != thing.infightingGroup)
-				writer.append("Infighting group = ").append(String.valueOf(infightingGroup)).append("\r\n");
-			if (projectileGroup != thing.projectileGroup)
-				writer.append("Projectile group = ").append(String.valueOf(projectileGroup)).append("\r\n");
-			if (splashGroup != thing.splashGroup)
-				writer.append("Splash group = ").append(String.valueOf(splashGroup)).append("\r\n");
+			int fastSpeedVal = isProjectile && getFastSpeed() != DEFAULT_FASTSPEED ? getFastSpeed() << 16 : getFastSpeed();
+			int thingFastSpeedVal = thingIsProjectile && thing.getFastSpeed() != DEFAULT_FASTSPEED ? thing.getFastSpeed() << 16 : thing.getFastSpeed();
+
+			if (getMBF21Flags() != thing.getMBF21Flags())
+				writer.append("MBF21 Bits = ").append(String.valueOf(getMBF21Flags())).append("\r\n");
+			if (getInfightingGroup() != thing.getInfightingGroup())
+				writer.append("Infighting group = ").append(String.valueOf(getInfightingGroup())).append("\r\n");
+			if (getProjectileGroup() != thing.getProjectileGroup())
+				writer.append("Projectile group = ").append(String.valueOf(getProjectileGroup())).append("\r\n");
+			if (getSplashGroup() != thing.getSplashGroup())
+				writer.append("Splash group = ").append(String.valueOf(getSplashGroup())).append("\r\n");
 			if (fastSpeedVal != thingFastSpeedVal)
 				writer.append("Fast speed = ").append(String.valueOf(fastSpeedVal)).append("\r\n");
-			if (meleeRange != thing.meleeRange)
-				writer.append("Melee range = ").append(String.valueOf(meleeRange << 16)).append("\r\n");
-			if (ripSoundPosition != thing.ripSoundPosition)
-				writer.append("Rip sound = ").append(String.valueOf(ripSoundPosition)).append("\r\n");
+			if (getMeleeRange() != thing.getMeleeRange())
+				writer.append("Melee range = ").append(String.valueOf(getMeleeRange() << 16)).append("\r\n");
+			if (getRipSoundPosition() != thing.getRipSoundPosition())
+				writer.append("Rip sound = ").append(String.valueOf(getRipSoundPosition())).append("\r\n");
 		}
 
 		writer.flush();
+	}
+
+	@Override
+	public void dumpObjectFieldNames(List<String> fieldNameList, DEHFeatureLevel level)
+	{
+		// TODO Finish this.
+	}
+
+	@Override
+	public void dumpObjectFieldValues(List<Object> fieldValueList, DEHFeatureLevel level) 
+	{
+		// TODO Finish this.
 	}
 
 }
