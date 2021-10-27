@@ -20,7 +20,7 @@ import net.mtrop.doom.util.RangeUtils;
  * NOTE: All sound positions are 1-BASED. 0 = no sound, [index+1] is the sound.
  * @author Matthew Tropiano
  */
-public class DEHThing implements DEHObject<DEHThing>, DEHThingTarget<DEHThing>
+public class DEHThing extends DEHObject<DEHThing> implements DEHThingTarget<DEHThing>
 {
 	private String name;
 	
@@ -94,6 +94,7 @@ public class DEHThing implements DEHObject<DEHThing>, DEHThingTarget<DEHThing>
 		if (source == this)
 			return this;
 			
+		copyUserValuesFrom(source);
 		setName(source.name);
 		setEditorNumber(source.editorNumber);
 

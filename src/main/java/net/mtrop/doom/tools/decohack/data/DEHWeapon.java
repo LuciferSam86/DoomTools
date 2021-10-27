@@ -18,7 +18,7 @@ import net.mtrop.doom.util.RangeUtils;
  * A single weapon entry.
  * @author Matthew Tropiano
  */
-public class DEHWeapon implements DEHObject<DEHWeapon>, DEHWeaponTarget<DEHWeapon>
+public class DEHWeapon extends DEHObject<DEHWeapon> implements DEHWeaponTarget<DEHWeapon>
 {
 	public static enum Ammo
 	{
@@ -89,6 +89,7 @@ public class DEHWeapon implements DEHObject<DEHWeapon>, DEHWeaponTarget<DEHWeapo
 		if (source == this)
 			return this;
 		
+		copyUserValuesFrom(source);
 		setName(source.name);
 		setAmmoType(source.ammoType);
 		setAmmoPerShot(source.ammoPerShot);

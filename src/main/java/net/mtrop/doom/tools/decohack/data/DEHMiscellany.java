@@ -15,7 +15,7 @@ import net.mtrop.doom.util.RangeUtils;
  * All other miscellaneous DeHackEd stuff.
  * @author Matthew Tropiano
  */
-public class DEHMiscellany implements DEHObject<DEHMiscellany>
+public class DEHMiscellany extends DEHObject<DEHMiscellany>
 {
 	private boolean monsterInfightingEnabled;
 	private int initialBullets;
@@ -63,6 +63,7 @@ public class DEHMiscellany implements DEHObject<DEHMiscellany>
 		if (source == this)
 			return this;
 		
+		copyUserValuesFrom(source);
 		setMonsterInfightingEnabled(source.monsterInfightingEnabled);
 		setInitialBullets(source.initialBullets);
 		setInitialHealth(source.initialHealth);

@@ -15,7 +15,7 @@ import net.mtrop.doom.util.RangeUtils;
  * A single sound entry.
  * @author Matthew Tropiano
  */
-public class DEHSound implements DEHObject<DEHSound>
+public class DEHSound extends DEHObject<DEHSound>
 {
 	/** Sound priority (unsigned byte). */
 	private int priority;
@@ -57,6 +57,7 @@ public class DEHSound implements DEHObject<DEHSound>
 		if (source == this)
 			return this;
 		
+		copyUserValuesFrom(source);
 		setPriority(source.priority);
 		setSingular(source.singular);
 		return this;

@@ -7,6 +7,9 @@ package net.mtrop.doom.tools.decohack.data;
 
 import java.io.IOException;
 import java.io.Writer;
+import java.util.Map;
+import java.util.Set;
+import java.util.TreeMap;
 
 import net.mtrop.doom.tools.decohack.data.enums.DEHFeatureLevel;
 
@@ -15,15 +18,73 @@ import net.mtrop.doom.tools.decohack.data.enums.DEHFeatureLevel;
  * @author Matthew Tropiano
  * @param <SELF> this object's class.
  */
-public interface DEHObject<SELF>
+public abstract class DEHObject<SELF>
 {
+	/** Key / Value mapping for verbatim user values. */
+	private Map<String, Object> userValues;
+
+	protected DEHObject()
+	{
+		this.userValues = new TreeMap<>();
+	}
+	
+	/**
+	 * Clears/resets user values defined on this object.
+	 * @return this object.
+	 */
+	@SuppressWarnings("unchecked")
+	public SELF clearUserValues()
+	{
+		userValues.clear();
+		return (SELF)this;
+	}
+
+	/**
+	 * Copies user values from another object.
+	 * @param source the source object.
+	 * @return this object.
+	 */
+	@SuppressWarnings("unchecked")
+	public SELF copyUserValuesFrom(DEHObject<SELF> source)
+	{
+		if (source == this)
+			return (SELF)this;
+		
+		source.clearUserValues();
+		for (String key : source.getUserValueKeys())
+			setUserValue(key, source.userValues.get(key));
+		return (SELF)this;
+	}
+
+	/**
+	 * Sets an user value on this Thing.
+	 * @param key the key.
+	 * @param value the value.
+	 * @return this thing.
+	 */
+	@SuppressWarnings("unchecked")
+	public SELF setUserValue(String key, Object value)
+	{
+		userValues.put(key, value);
+		return (SELF)this;		
+	}
+
+	/**
+	 * @return all set user value keys.
+	 */
+	public String[] getUserValueKeys()
+	{
+		Set<String> set = userValues.keySet();
+		return set.toArray(new String[set.size()]);
+	}
+	
 	/**
 	 * Copies this object's values.
 	 * @param source the source object.
 	 * @param level the highest feature level to copy over.
 	 * @return this object.
 	 */
-	SELF copyFrom(SELF source);
+	public abstract SELF copyFrom(SELF source);
 	
 	/**
 	 * Writes this object to a DeHackEd file stream.
@@ -32,6 +93,6 @@ public interface DEHObject<SELF>
 	 * @param level the highest feature level to export for.
 	 * @throws IOException if a write error occurs.
 	 */
-	void writeObject(Writer writer, SELF original, DEHFeatureLevel level) throws IOException;
+	public abstract void writeObject(Writer writer, SELF original, DEHFeatureLevel level) throws IOException;
 	
 }

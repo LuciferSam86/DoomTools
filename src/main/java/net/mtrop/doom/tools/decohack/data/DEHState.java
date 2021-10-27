@@ -17,7 +17,7 @@ import net.mtrop.doom.util.RangeUtils;
  * A single state.
  * @author Matthew Tropiano
  */
-public class DEHState implements DEHObject<DEHState>
+public class DEHState extends DEHObject<DEHState>
 {
 	private int spriteIndex;
 	private int frameIndex; // 28 max
@@ -78,6 +78,7 @@ public class DEHState implements DEHObject<DEHState>
 		if (source == this)
 			return this;
 		
+		copyUserValuesFrom(source);
 		setSpriteIndex(source.spriteIndex);
 		setFrameIndex(source.frameIndex);
 		setBright(source.bright);

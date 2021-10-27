@@ -15,7 +15,7 @@ import net.mtrop.doom.util.RangeUtils;
  * A single ammo entry.
  * @author Matthew Tropiano
  */
-public class DEHAmmo implements DEHObject<DEHAmmo>
+public class DEHAmmo extends DEHObject<DEHAmmo>
 {
 	/** Ammo name. */
 	private String name;
@@ -38,6 +38,7 @@ public class DEHAmmo implements DEHObject<DEHAmmo>
 		if (source == this)
 			return this;
 
+		copyUserValuesFrom(source);
 		setName(source.name);
 		setMax(source.max);
 		setPickup(source.pickup);
